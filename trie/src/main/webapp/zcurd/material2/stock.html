@@ -1,0 +1,117 @@
+
+<#include "/common/head.html"/>
+
+
+ <div class="easyui-panel updatePage multiple" data-options="fit:true,border:false">
+    <form id="ff" class="easyui-form" method="post">
+        <table class="table1">
+            <tr>
+           		<th><span id="Category_label">分类名册：</span></th>
+               	<td>              		
+               		<div class="wrap_input" style="height:25px;line-height:32px;overflow:hidden;  ">
+               			${model.Category!''}
+               		</div> 
+           		</td>
+           		
+           		<th><span id="Location_label">位置：</span></th>
+               	<td>
+               		<div class="wrap_input" style="height:25px;line-height:32px;overflow:hidden;  ">
+               			${model.Location!''}
+               		</div>
+           		</td>
+           		
+            </tr>
+            <tr>
+           		<th><span id="Type_label">名称：</span></th>
+               	<td>
+               		<div class="wrap_input" style="height:25px;line-height:32px;overflow:hidden;  ">
+               			${model.Type!''}
+               		</div>
+           		</td>
+           		
+           		<th><span id="Code_label">产品编码：</span></th>
+               	<td>
+               		<div class="wrap_input" style="height:25px;line-height:32px;overflow:hidden;  ">
+               			${model.Code!''}
+               		</div>
+           		</td>
+            </tr>
+			<tr>
+           		<th><span id="Project_label">是否存在：</span></th>
+           		<td>
+	               	<div class="wrap_input">
+	               		<input id="stock_exist" name="stock_exist" class="easyui-combobox" value="" data-options="
+	               				valueField: 'id',
+	        					textField: 'text',
+	        					fit: true,
+	        					editable:false,
+	        					data:[
+	        						{id:'', text:''},{id:'1', text:'否'},{id:'2', text:'是'}
+		               			]
+		               			,panelHeight:'auto'
+	               		"/></div>
+               	</td>
+               	<th><span id="Project_label">盘点时间：</span></th>
+               	<td>
+               		<div class="wrap_input">
+               			<input class="easyui-datebox" type="text" name="stock_time" id="stock_time" value="" data-options="fit: true,editable:false"></input>
+               		</div>
+           		</td>
+            </tr>
+            <tr>
+           		<th><span id="Pc_Owner_label">盘点人：</span></th>
+               	<td>
+               		<div class="wrap_input">
+               			<input class="easyui-combobox" type="text" name="stock_man" id="stock_man" data-options="
+	            				valueField: 'id',
+   								textField: 'text',
+   								fit: true,
+	            				data: [
+	            					{id:'', text:''}<#list dictDataUser.keySet() as key>,{id:'${key}', text:'${dictDataUser.get(key)}'}</#list>
+	            				],
+	            				required:true,
+	            				panelHeight:'auto'" >
+               		</div>
+           		</td>
+           		<th><span id="Platform_label">盘点注释：</span></th>
+               	<td>
+               		<div class="wrap_input">
+               			<input class="easyui-textbox" type="text" name="stock_remark" id="stock_remark" value="" data-options="fit: true"></input>
+               		</div>
+           		</td>
+            </tr>
+            
+        </table>
+    </form>
+</div>
+<script>
+top.window.subPage.save = save;
+function save() {
+	if($("#ff").form('validate')) {
+		$.post("stock", getParam(), function(data) {
+			if(data.result=="success"){
+				top.window.closeWindow();
+				top.window.subPage.loadCurrDatagrid();
+			}
+		});
+	}
+}
+function getParam() {
+	var param = {
+	    "id": ${model.id}, 
+       	    "model.stock_exist": getInputValue("stock_exist"), 
+       	    "model.stock_time": getInputValue("stock_time"), 
+       	    "model.stock_man": getInputValue("stock_man"), 
+       	    "model.stock_remark": getInputValue("stock_remark"), 
+	}
+	for(key in param) {
+		if(!param[key]) {
+			delete param[key];
+		}
+	}
+	return param;
+}
+
+//扩展js
+</script>
+<#include "/common/foot.html"/>

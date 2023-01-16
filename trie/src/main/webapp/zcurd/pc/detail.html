@@ -1,0 +1,99 @@
+
+<#include "/common/head.html"/>
+
+
+ <div class="easyui-panel detailPage multiple" data-options="fit:true,border:false">
+    <form id="ff" class="easyui-form" method="post">
+        <table class="table1">
+        	 <tr>
+           		<th><span id="Location_label">位置：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.Location!''}</pre></span></td>
+           		<th><span id="SN_label">序列号：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.SN!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="Access_label">资产编号：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.Access!''}</pre></span></td>
+           		<th><span id="Owner_label">所有人：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.Owner!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="pc_property_label">PC属性：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.pc_property!''}</pre></span></td>
+           		<th><span id="IP_label">IP：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.IP!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="MAC_label">MAC地址或备注：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.MAC!''}</pre></span></td>
+           		<th><span id="Package_label">打补丁：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.Package!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="virus_label">杀毒软件：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.virus!''}</pre></span></td>
+           		<th><span id="scan_virus_label">查毒：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.scan_virus!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="op_system_label">系统：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.op_system!''}</pre></span></td>
+           		<th><span id="reinstall_label">重装：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.reinstall!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="infected_label">中毒：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.infected!''}</pre></span></td>
+           		<th><span id="precaution_label">措施：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.precaution!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="user_label">使用人：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.user!''}</pre></span></td>
+           		<th><span id="sign_label">签字：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.sign!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="contact_way_label">联系方式：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.contact_way!''}</pre></span></td>
+           		<th><span id="stock_exist_label">是否存在：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.stock_exist!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="stock_man_label">盘点人：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.stock_man!''}</pre></span></td>
+           		<th><span id="stock_time_label">盘点时间：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.stock_time!''}</pre></span></td>
+            </tr>
+                   <tr>
+           		<th><span id="stock_remark_label">盘点注释：</span></th>
+	               	<td colspan="3"><span class="valueSpan"><pre>${model.stock_remark!''}</pre></span></td>
+            </tr>
+             <tr>
+           		<th><span id="OUT_from_label">借用日：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.OUT_from!''}</pre></span></td>
+           		<th><span id="OUT_till_label">归还日：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.OUT_till!''}</pre></span></td>
+            </tr>
+              <tr>
+           		<th><span id="Project_label">申请人：</span></th>
+	          <td colspan="3"><span class="valueSpan"><pre>${model.Project!''}</pre></span></td>
+            </tr>
+            <tr>
+            	<th><span id="pic_label">照片：</span></th>
+	               	<td colspan="3">
+	               		<#if model.pic??>
+							 <img style="width:30%;height:40%;" src="${basePath}/res/upload/pic/pc/${model.pic}" />'
+						</#if>
+	               	</td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script>
+$(function(){
+	hideButton();
+});
+//扩展js
+</script>
+<#include "/common/foot.html"/>

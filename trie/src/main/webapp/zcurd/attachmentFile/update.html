@@ -1,0 +1,99 @@
+
+<#include "/common/head.html"/>
+
+ <div class="easyui-panel updatePage" data-options="fit:true,border:false">
+    <form id="ff" class="easyui-form" method="post">
+        <table class="table1">
+            <tr>
+           		<th><span id="title_label">标题：</span></th>
+               	<td>
+               		<div class="wrap_input"><input class="easyui-textbox" type="text" name="title" id="title" value="${model.title!''}" data-options="fit: true"></input></div>
+           		</td>
+           	</tr>
+            <tr>
+           		<th><span id="file_name_label">文件名称：</span></th>
+               	<td>
+					<div class="wrap_input">
+               			<input class="easyui-textbox" type="text" id="uf" data-options="disabled:true,readonly:true,editable:false" style="width:300px;" value="${model.file_name!''}"/>
+               			<a href="javascript:void(0)" class="easyui-linkbutton" id="aa">上传</a>
+               		 </div>
+           		</td>
+           		
+            </tr>
+            <tr>
+           		<th><span id="create_time_label">上传时间：</span></th>
+               	<td>
+               		<span class="item" id="create_time">${model.create_time!''}</span>
+           		</td>
+            </tr>
+              <tr>
+           		<th><span id="create_name_label">上传人：</span></th>
+               	<td>
+               		<span class="item" id="create_name">${model.create_name!''}</span>
+           		</td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script type="text/javascript" src="${basePath}/res/js/ajaxupload.js"></script>
+<script>
+$(function(){
+	top.window.subPage.save = save;
+	var cc = new AjaxUpload("#aa", {
+		action : 'update?'+$.param(getParam("1")),
+		name : 'file',
+		autoSubmit : false,
+		responseType : "json",
+		onSubmit : function(file, extension) {
+		},
+		onChange: function(file, extension){
+			$("#uf").textbox("setValue",file);
+        },
+		onComplete : function(file, data) {
+			if(data.result=="success"){
+				showMsg(data.msg);
+				top.window.closeWindow();
+				top.window.subPage.loadCurrDatagrid();
+			}else{
+				showWarnMsg(data.msg);
+			}
+		}
+	});
+	function save() {
+		if($("#ff").form('enableValidation').form('validate')) {
+			var val = $("#uf").textbox('getValue');			
+			if(val!=''){
+				if(val=="${model.file_name!''}"){
+					$.post("update", getParam("0"), function(data) {
+						if(data.result=="success"){
+							top.window.closeWindow();
+							top.window.subPage.loadCurrDatagrid();
+						}
+					});
+				}else{
+					alert(1);
+					cc.submit();
+				}
+			}else{
+				showWarnMsg("请上传文件");
+			}
+		}
+	}
+	function getParam(type) {
+		var param = {
+			"model.id":"${model.id}",				
+	       	"model.title": getInputValue("title"), 
+	       	"model.type":type
+		}
+		for(key in param) {
+			if(!param[key]) {
+				delete param[key];
+			}
+		}
+		return param;
+	}
+});
+
+//扩展js
+</script>
+<#include "/common/foot.html"/>

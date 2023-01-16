@@ -1,0 +1,81 @@
+
+<#include "/common/head.html"/>
+
+
+<div class="easyui-panel updatePage multiple"
+	data-options="fit:true,border:false">
+	<form id="ff" class="easyui-form" method="post">
+		<table class="table1">
+			
+			<tr>
+				<th><span id="appointment_start_label">预约日期起：</span></th>
+				<td>
+					<div class="wrap_input">
+						<input class="easyui-datetimebox" type="text" name="appointment_start"
+							id="appointment_start" value="" data-options="fit: true,required:true,editable:false,showSeconds: false"></input>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<th><span id="appointment_end_label">预约日期止：</span></th>
+				<td>
+					<div class="wrap_input">
+						<input class="easyui-datetimebox" type="text" name="appointment_end"
+							id="appointment_end" value="" data-options="fit: true,required:true,editable:false,showSeconds: false"></input>
+					</div>
+				</td>
+
+			</tr>
+			<tr>
+				<th><span id="appointment_remark_label">预约备注：</span></th>
+				<td>
+					<div class="wrap_input">
+						<input class="easyui-textbox" type="text" name="appointment_remark"
+							id="appointment_remark" value="" data-options="fit: true,required:true"></input>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+<script>
+	top.window.subPage.save = save;
+	function save() {
+
+		var beginDate = getInputValue("appointment_start");
+		var endDate = getInputValue("appointment_end");
+		var d1 = new Date(beginDate.replace(/\-/g, "\/"));
+		var d2 = new Date(endDate.replace(/\-/g, "\/"));
+
+		if (beginDate != "" && endDate != "" && d1 > d2) {
+			showWarnMsg("预约开始日不能大于预结束日！");
+			return false;
+		}
+
+		if ($("#ff").form('validate')) {
+			$.post("appointment", getParam(), function(data) {
+				if (data.result == "success") {
+					top.window.closeWindow();
+					top.window.subPage.loadCurrDatagrid();
+				}
+			});
+		}
+	}
+	function getParam() {
+		var param = {
+			"idlist" : '${idlist}',
+			"model.appointment_start" : getInputValue("appointment_start"),
+			"model.appointment_end" : getInputValue("appointment_end"),
+			"model.appointment_remark" : getInputValue("appointment_remark")
+		}
+		for (key in param) {
+			if (!param[key]) {
+				delete param[key];
+			}
+		}
+		return param;
+	}
+
+	//扩展js
+</script>
+<#include "/common/foot.html"/>

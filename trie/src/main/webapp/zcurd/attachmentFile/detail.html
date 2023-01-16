@@ -1,0 +1,35 @@
+
+<#include "/common/head.html"/>
+
+
+ <div class="easyui-panel detailPage" data-options="fit:true,border:false">
+    <form id="ff" class="easyui-form" method="post">
+        <table class="table1">
+            <tr>
+           		<th><span id="title_label">标题：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.title!''}</pre></span></td>
+	        </tr>
+            <tr>
+           		<th><span id="file_name_label">文件名称：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.file_name!''}</pre></span></td>
+            </tr>
+              <tr>
+           		<th><span id="create_name_label">上传人：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.create_name!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="create_time_label">上传时间：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.create_time!''}</pre></span></td>
+            </tr>
+           	
+        </table>
+    </form>
+</div>
+<script>
+$(function(){
+	hideButton();
+});
+
+//扩展js
+</script>
+<#include "/common/foot.html"/>

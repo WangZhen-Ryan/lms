@@ -1,0 +1,78 @@
+
+<#include "/common/head.html"/>
+
+
+ <div class="easyui-panel detailPage multiple" data-options="fit:true,border:false">
+    <form id="ff" class="easyui-form" method="post">
+        <table class="table1">
+            <tr>
+           		<th><span id="emd_date_label">日期：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.emd_date!''}</pre></span></td>
+           		<th><span id="emd_no_label">领料单编号：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.emd_no!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="po_no_label">工程号：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.po_no!''}</pre></span></td>
+           		<th><span id="deadline_label">期望到货：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.deadline!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="proposer_label">申请人：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.proposer!''}</pre></span></td>
+           		<th><span id="cc_label">能力中心：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.cc!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="lab_label">实验室：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.lab!''}</pre></span></td>
+           		<th><span id="instrument_code_label">物料编号：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.instrument_code!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="instrument_name_label">物料名称：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.instrument_name!''}</pre></span></td>
+           		<th><span id="qty_label">数量：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.qty!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="unit_price_label">单价：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.unit_price!''}</pre></span></td>
+           		<th><span id="total_label">总价：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.total!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="project_label">项目：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.project!''}</pre></span></td>
+           		<th><span id="project_no_label">项目编号：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.project_no!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="cost_center_label">成本中心：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.cost_center!''}</pre></span></td>
+           		<th><span id="emd_stauts_label">领料单状态：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.emd_stauts!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="real_date_label">实际领到日期：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.real_date!''}</pre></span></td>
+           		<th><span id="maker_label">制单&amp;跟踪人：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.maker!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="remark_label">备注：</span></th>
+	               	<td colspan="3"><span class="valueSpan"><pre>${model.remark!''}</pre></span></td>
+            </tr>
+           	
+        </table>
+    </form>
+</div>
+<script>
+top.window.subPage.save = save;
+function save() {
+	top.window.closeWindow();
+}
+
+//扩展js
+</script>
+<#include "/common/foot.html"/>

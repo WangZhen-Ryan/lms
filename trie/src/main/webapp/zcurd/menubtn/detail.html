@@ -1,0 +1,33 @@
+
+<#include "/common/head.html"/>
+
+
+ <div class="easyui-panel detailPage" data-options="fit:true,border:false">
+    <form id="ff" class="easyui-form" method="post">
+        <table class="table1">
+            <tr>
+           		<th><span id="menu_id_label">所属菜单：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.menu_id!''}</pre></span></td>
+            <tr>
+           		<th><span id="btn_name_label">按钮名称：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.btn_name!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="class_name_label">页面class名称：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.class_name!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="method_name_label">后台method名称：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.method_name!''}</pre></span></td>
+            </tr>
+           	
+        </table>
+    </form>
+</div>
+<script>
+$(function(){
+	hideButton();
+});
+//扩展js
+</script>
+<#include "/common/foot.html"/>

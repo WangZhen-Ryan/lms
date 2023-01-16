@@ -1,0 +1,584 @@
+
+<#include "/common/head.html"/>
+
+<table id="dg"></table>
+<div id="tb" style="padding: 2px 5px;">
+	<div class="wrap_search">
+		<span class="search_item">
+		     <span class="item_text">条件: </span>
+		     <span class="item_obj">
+		            <input class="easyui-textbox" name="searchText" id="searchText" value="" style="width:100px;height:24px;" data-options="" />
+		     </span>    
+		 </span>
+		<span class="search_item"> 
+			<span class="item_text">分类名册:</span> 
+			<span class="item_obj">
+				<input class="easyui-combobox" name="Category" id="Category" value="" style="width: 100px;height:24px;"
+					data-options="
+           				valueField: 'id',
+           				editable:false,
+    								textField: 'text',
+           				data: [
+           					{id:'', text:''}<#list dictDataCategory.keySet() as key>,{id:'${key}', text:'${dictDataCategory.get(key)}'}</#list>
+           				]
+           			" />
+			</span>
+		</span>
+		<span class="search_item"> 
+			<span class="item_text">位置:</span> 
+			<span class="item_obj"> <input class="easyui-textbox" type="text" name="likeloc" id="likeloc" value=""  style="height:24px;"/>
+			</span>
+		</span>
+		
+		<span class="search_item"> 
+			<span class="item_text">状态:</span> 
+           	<span class="item_obj">
+           		<input class="easyui-combobox" name="Status" id="Status" value="" style="width:100px;height:24px;" data-options="
+           				editable:false,
+           				valueField: 'id',
+    								textField: 'text',
+           				data: [
+           					{id:'', text:''}<#list dictDataStatus.keySet() as key>,{id:'${key}', text:'${dictDataStatus.get(key)}'}</#list>
+           				]
+           			" />
+           	</span>
+		</span>
+		<span class="search_item"> <span class="item_text">使用人:</span> 
+			<span class="item_obj"> <input class="easyui-textbox" type="text" name="user" id="user" value="" style="height:24px;" /></span>
+		</span>
+		<span class="search_item"> <span class="item_text">申请人:</span> 
+			<span class="item_obj"> <input class="easyui-textbox" type="text" name="Project" id="Project" value="" style="height:24px;" /></span>
+		</span>
+		<!--
+		<span class="search_item"> <span class="item_text">预约人姓名:</span> 
+			<span class="item_obj"> <input class="easyui-textbox" type="text" name="appointment_name" id="appointment_name" value="" style="height:24px;" /></span>
+		</span>  -->
+	</div>
+	<div style="text-align: left; margin: 6px;">
+		<a href="javascript:void(0)" class="easyui-linkbutton addBtn" iconCls="icon-add" plain="true" onclick="add()">登记</a>
+		<a href="javascript:void(0)" class="easyui-linkbutton updateBtn" iconCls="icon-edit" plain="true" onclick="update()">编辑</a> 
+		<a href="javascript:void(0)" class="easyui-linkbutton delBtn" iconCls="icon-remove" plain="true" onclick="del()">删除</a> 
+		<a href="javascript:void(0)" class="easyui-linkbutton lendBtn" iconCls="icon-20130406125647919_easyicon_net_16" plain="true" onclick="lend()">借出</a> 
+		<a href="javascript:void(0)" class="easyui-linkbutton backBtn" iconCls="icon-20130406125519344_easyicon_net_16" plain="true" onclick="back()">归还</a> 
+		<a href="javascript:void(0)" class="easyui-linkbutton detailBtn" iconCls="icon-application_view_detail" plain="true" onclick="detail()">详情</a>
+		<a href="javascript:void(0)" class="easyui-linkbutton picBtn" iconCls="icon-camera" plain="true" onclick="pic()">照片</a> 
+		<a href="javascript:void(0)" class="easyui-linkbutton stockBtn" iconCls="icon-application_cascade" plain="true" onclick="stock()">盘点</a>
+		<a href="javascript:void(0)" class="easyui-linkbutton importBtn" iconCls="icon-page_excel" plain="true" onclick="importExcel()">导入</a>
+		<a href="javascript:void(0)" class="easyui-linkbutton appointmentBtn" iconCls="icon-phone_add" plain="true" onclick="appointment()">预约</a>
+		<a href="javascript:void(0)" class="easyui-linkbutton clearAppointmentBtn" iconCls="icon-phone_delete" plain="true" onclick="clearAppointment()">清除预约</a>
+		<a href="javascript:void(0)" class="easyui-linkbutton expBtn" iconCls="icon-save" plain="true" onclick="expExcel()">导出</a>
+       	<span id="searchBtnWrap" style="float: right;padding-right:40px;">
+			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-2012092109942 " onclick="zcurdSearch(this)">搜索</a> 
+			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-2012080412111" onclick="flushPage()">重置</a>
+		</span>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	var datagrid = $("#dg");
+
+	var dgOptions = {
+		rownumbers : true,
+		fit : true,
+		border : false,
+		rownumbers : true,
+		url : 'listData',
+		method : 'post',
+		toolbar : '#tb',
+		pageSize : 20,
+		pagination : true,
+		multiSort : true,
+		queryParams : getInitParam(),
+
+		columns : [ [
+				{
+					field : 'id',
+					checkbox : true
+				},
+				{
+					field : 'Category',
+					title : '分类名册',
+					sortable : true
+				},
+				{
+					field : 'Location',
+					title : '位置',
+					sortable : true
+				},
+				{
+					field : 'Type',
+					title : '名称',
+					sortable : true
+				},
+				{
+					field : 'Code',
+					title : '产品编码',
+					sortable : true
+				},
+				{
+					field : 'ICS',
+					title : '版本',
+					sortable : true
+				},
+				{
+					field : 'SN',
+					title : '序列号',
+					sortable : true
+				},
+				{
+					field : 'Status',
+					title : '状态',
+					sortable : true
+				},
+				{
+					field : 'User',
+					title : '使用人',
+					sortable : true
+				},
+				{
+					field : 'OUT_from',
+					title : '借用日',
+					sortable : true,
+					formatter:function(value,row,index){
+						if(value!=null&&value!=''){
+							var unixTimestamp = new Date(value);  
+							value = unixTimestamp.format('yyyy-MM-dd');
+						}
+						return value;
+					}
+				},
+				{
+					field : 'OUT_till',
+					title : '归还日',
+					sortable : true,
+					formatter:function(value,row,index){
+						if(value!=null&&value!=''){
+							var unixTimestamp = new Date(value);  
+							value = unixTimestamp.format('yyyy-MM-dd');
+						}
+						return value;
+					}
+				},
+				{
+					field : 'Project',
+					title : '申请人',
+					sortable : true
+				},
+				{
+					field : 'Handler',
+					title : '最后修改人',
+					sortable : true
+				},
+				{
+					field : 'Platform',
+					title : '平台',
+					sortable : true
+				},
+				{
+					field : 'Remarks',
+					title : '备注',
+					width : 120,
+					sortable : true
+				},
+				{
+					field : 'Inventory_Date',
+					title : '录入日期',
+					sortable : true,
+					formatter:function(value,row,index){
+						if(value!=null&&value!=''){
+							var unixTimestamp = new Date(value);  
+							value = unixTimestamp.format('yyyy-MM-dd');
+						}
+						return value;
+					}
+				},
+				{
+					field : 'PR_EMD_No',
+					title : '对应PR_EMD',
+					sortable : true
+				},
+				{
+					field : 'PO_UPE',
+					title : '对应PO工程号',
+					sortable : true
+				},
+				{
+					field : 'stock_exist',
+					title : '是否存在',
+					sortable : true,
+					formatter:function(value,row,index){
+						if(value!=null&&value!=''){
+							if(value=='2'){
+								value = '是';
+							}else if(value=='1'){
+								value = '否';
+							}
+						}
+						return value;
+					}
+				},
+				{
+					field : 'stock_man',
+					title : '盘点人',
+					sortable : true
+				}, {
+					field : 'stock_time',
+					title : '盘点时间',
+					sortable : true,
+					formatter:function(value,row,index){
+						if(value!=null&&value!=''){
+							var unixTimestamp = new Date(value);  
+							value = unixTimestamp.format('yyyy-MM-dd');
+						}
+						return value;
+					}
+				}, {
+					field : 'stock_remark',
+					title : '盘点注释',
+					width : 120,
+					sortable : true
+				}, {
+					field : 'appointment_name',
+					title : '预约人姓名',
+					sortable : true
+				}, {
+					field : 'appointment_start',
+					title : '预约日期起',
+					sortable : true,
+					formatter:function(value,row,index){
+						if(value!=null&&value!=''){
+							var unixTimestamp = new Date(value);  
+							value = unixTimestamp.format('yyyy-MM-dd hh:mm');
+						}
+						return value;
+					}
+				},  {
+					field : 'appointment_end',
+					title : '预约日期止',
+					sortable : true,
+					formatter:function(value,row,index){
+						if(value!=null&&value!=''){
+							var unixTimestamp = new Date(value);  
+							value = unixTimestamp.format('yyyy-MM-dd hh:mm');
+						}
+						return value;
+					}
+				},{
+					field : 'appointment_remark',
+					title : '预约备注',
+					width : 120,
+					sortable : true
+				} ] ],
+		onSortColum: function (sort,order) {  //其中sort代表排序列字段名称；order:排序列的顺序（ASC或DESC）
+			　　　datagrid.datagrid('reload', {
+			　　　sort: sort,
+			　　　order: order
+			　　});
+			},
+		loadFilter : function(data) {
+			if (data.result && data.result == 'fail') { //失败时，错误消息提示
+				showWarnMsg(data.msg);
+				return {};
+			} else {
+				return data;
+			}
+		}
+	};
+	
+	
+	$(function() {
+		handleAuthDataRule();
+		datagrid.datagrid(dgOptions);
+	});
+
+	function zcurdSearch() {
+		var param = zcurdGetParam();
+		datagrid.datagrid("load",param);
+	}
+
+	function zcurdGetParam() {
+		var param = {};
+		$("#tb :input[name]").each(function(i, item) {
+			if ($(item).val()) {
+				param[$(item).attr("name")] = $(item).val();
+			}
+		});
+		return param;
+	}
+
+	function getInitParam() {
+		var param = {};
+		$("#tb :input[name]").each(
+				function(i, item) {
+					if ($(item).val()) {
+						param[$(item).attr("name")] = $(item).val();	
+					}
+				});
+
+		return param;
+	}
+
+	var initPara = zcurdGetParam();
+	function add() {
+		top.window.subPage.loadCurrDatagrid = function() {
+			showMsg("增加成功！");
+			datagrid.datagrid("load");
+		}
+		top.openWindow("物料-增加",
+				getCurrUrl("addPage") + "?" + $.param(initPara), {
+					size : '800x500'
+				});
+	}
+
+	function pic() {
+		var rowsSel = datagrid.datagrid("getSelections");
+		if (rowsSel.length != 1) {
+			showWarnMsg("请选择需要添加照片的一条数据！");
+			return;
+		}
+		var id = rowsSel[0].id;
+		top.window.subPage.loadCurrDatagrid = function() {
+			showMsg("照片添加完成！");
+			datagrid.datagrid("load");
+		}
+		top.openWindow("物料-照片", getCurrUrl("picpage") + "?id=" + id, {
+			size : '800x410'
+		});
+	}
+
+	function stock() {
+		var rowsSel = datagrid.datagrid("getSelections");
+		if (rowsSel.length != 1) {
+			showWarnMsg("请选择需要编辑的一条数据！");
+			return;
+		}
+		var id = rowsSel[0].id;
+		top.window.subPage.loadCurrDatagrid = function() {
+			showMsg("盘点完成！");
+			datagrid.datagrid("load");
+		}
+		top.openWindow("物料-盘点", getCurrUrl("stockPage") + "?id=" + id, {
+			size : '800x410'
+		});
+	}
+
+	function lend() {
+		var rowsSel = datagrid.datagrid("getSelections");
+		if (rowsSel.length == 0) {
+			showWarnMsg("请选择需要借出的物料！");
+			return;
+		}
+
+		var idlist = "";
+		for (i = 0; i < rowsSel.length; i++) {
+			if(rowsSel[i].OUT_from != null && rowsSel[i].OUT_from.length != 0)
+			{
+				showWarnMsg(rowsSel[i].Code + "物料已被借出！");
+				return;
+			}
+			idlist += rowsSel[i].id + ",";
+		}
+		
+		idlist = idlist.substr(0, idlist.length - 1);
+
+		top.window.subPage.loadCurrDatagrid = function() {
+			showMsg("借出成功！");
+			datagrid.datagrid("reload");
+		}
+
+		top.openWindow("物料-借出", getCurrUrl("lendPage") + "?idlist=" + idlist, {
+			size : '450x400'
+		});
+	}
+
+	
+	function back() {
+		var rowsSel = datagrid.datagrid("getSelections");
+		if (rowsSel.length == 0) {
+			showWarnMsg("请选择已归还的物料！");
+			return;
+		}
+
+		confirmMsg("确认归还？", function() {
+
+			var idlist = "";
+			for (i = 0; i < rowsSel.length; i++) {
+				if (rowsSel[i].OUT_from == null || rowsSel[i].OUT_from.length == 0) {
+					showWarnMsg(rowsSel[i].Code + "物料未被借出！");
+					return;
+				}
+				idlist += rowsSel[i].id + ",";
+			}
+			idlist = idlist.substr(0, idlist.length - 1);
+
+			top.window.subPage.loadCurrDatagrid = function() {
+				showMsg("归还成功！");
+				datagrid.datagrid("reload");
+			}
+
+			var param = {
+				"idlist" : idlist
+			}
+
+			$.post("back", param, function(data) {
+				if (data.result == "success") {
+					top.window.subPage.loadCurrDatagrid();
+				}
+			});
+		});
+	}
+
+	function update() {
+		var rowsSel = datagrid.datagrid("getSelections");
+		if (rowsSel.length != 1) {
+			showWarnMsg("请选择需要编辑的一条数据！");
+			return;
+		}
+		var id = rowsSel[0].id;
+		top.window.subPage.loadCurrDatagrid = function() {
+			showMsg("更新成功！");
+			datagrid.datagrid("reload");
+		}
+		top.openWindow("物料-编辑", getCurrUrl("updatePage") + "?id=" + id, {
+			size : '800x500'
+		});
+	}
+
+	function del() {
+		var ids = [];
+		$.each(datagrid.datagrid("getSelections"), function(i, item) {
+			ids.push(item.id);
+		});
+		if (ids.length < 1) {
+			showWarnMsg("请选择需要删除的数据！");
+			return;
+		}
+		confirmMsg("确认删除？", function() {
+			$.post("delete", {
+				id : ids
+			}, function(data) {
+				showMsg("删除成功！");
+				datagrid.datagrid("reload");
+			});
+		});
+	}
+
+	function detail() {
+		var rowsSel = datagrid.datagrid("getSelections");
+		if (rowsSel.length != 1) {
+			showWarnMsg("请选择需要查看的一条数据！");
+			return;
+		}
+		var id = rowsSel[0].id;
+		top.openWindow("物料-详情", getCurrUrl("detailPage") + "?id=" + id, {
+			size : '800x600'
+		});
+	}
+
+	//excel导入
+	function importExcel() {
+		top.window.subPage.loadCurrDatagrid = function() {
+			datagrid.datagrid("reload");
+		}
+		top.openWindow("物料-导入", getCurrUrl("importExcelPage"), {
+			size : '500x200'
+		})
+	}
+
+	//按钮事件
+	//预约
+	function appointment(){
+		var rowsSel = datagrid.datagrid("getSelections");
+		if (rowsSel.length == 0) {
+			showWarnMsg("请选择需要预约的物料！");
+			return;
+		}
+
+		var idlist = "";
+		for (i = 0; i < rowsSel.length; i++) {
+			if(rowsSel[i].appointment_id!=null&&rowsSel[i].appointment_id!=''){
+				showWarnMsg("选中的第"+i+1+"个物料已被人预约！");
+				return;
+			}
+			idlist += rowsSel[i].id + ",";
+		}
+
+		idlist = idlist.substr(0, idlist.length - 1);
+
+		top.window.subPage.loadCurrDatagrid = function() {
+			showMsg("预约完成！");
+			datagrid.datagrid("reload");
+		}
+		top.openWindow("物料-预约", getCurrUrl("appointmentPage") + "?idlist=" + idlist, {
+			size : '400x400'
+		});
+	}
+	
+	//清除预约
+	function clearAppointment(){
+		var rowsSel = datagrid.datagrid("getSelections");
+		if (rowsSel.length == 0) {
+			showWarnMsg("请选择需要清除的预约记录！");
+			return;
+		}
+		confirmMsg("确认清除？", function() {
+			var idlist = "";
+			for (i = 0; i < rowsSel.length; i++) {
+				idlist += rowsSel[i].id + ",";
+			}
+			idlist = idlist.substr(0, idlist.length - 1);
+			top.window.subPage.loadCurrDatagrid = function() {
+				showMsg("清除成功！");
+				datagrid.datagrid("reload");
+			}
+			var param = {
+				"idlist" : idlist
+			}
+			$.post("clearAppointment", param, function(data) {
+				if (data.result == "success") {
+					top.window.subPage.loadCurrDatagrid();
+				}
+			});
+		});
+	}
+	
+	//导出excel
+	function expExcel(){
+		var opt = datagrid.datagrid('options');
+		var param = "";
+		$("#tb :input[name]").each(
+			function(i, item) {
+				if ($(item).val()) {
+					param +="&" + $(item).attr("name") +"=" + $(item).val();
+				}
+			});
+		param += "&sort=" + opt.sortName + "&order=" + opt.sortOrder;
+		window.open('expExcel?' + param);
+		//location.href = 'expExcel?' + param;
+	}
+	/**
+	 * 打开子页
+	 */
+	var _openSubPageFlag = false;
+	function _openSubPage(pageUrl) {
+		if (!_openSubPageFlag) {
+			$("#subLayout").layout("expand", "east");
+			setTimeout(function() {
+				$("#subIframe").attr("src", pageUrl);
+			}, 600);
+			_openSubPageFlag = true;
+		} else {
+			$("#subIframe").attr("src", pageUrl);
+		}
+	}
+
+	//扩展js
+</script>
+<style>
+	/*搜索栏div宽度*/
+	.wrap_search .search_item{width: 180px;}
+	.wrap_search .search_item .item_text{width: 70px; text-align: right;}
+</style>
+<#include "/common/dialogWindow.html"/>
+<#include "/common/foot.html"/>

@@ -1,0 +1,122 @@
+
+<#include "/common/head.html"/>
+    <table id="dg"></table>
+    <div id="tb" style="padding:2px 5px;">
+        <div class="wrap_search">
+        </div>
+        <div style="text-align: left; margin:6px;">
+            <a href="javascript:void(0)" class="easyui-linkbutton orderAddBtn"  iconCls="icon-add" plain="true" onclick="addOrderPage()">登记</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton orderUpdateBtn"  iconCls="icon-edit" plain="true" onclick="updateOrderPage()">编辑</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton orderDelBtn" iconCls="icon-remove" plain="true" onclick="delOrder()">删除</a>
+        </div>
+    </div>
+<script type="text/javascript">
+var datagrid = $("#dg");
+	var dgOptions = {
+		rownumbers : true,
+		fit : true,
+		border : false,
+		rownumbers : true,
+		url : 'getOrderList',
+		method : 'post',
+		toolbar : '#tb',
+		multiSort : true,
+		queryParams : {
+			"id":${id}
+		},
+		columns : [ [ {
+			field : 'id',
+			checkbox : true
+		}, {
+			field : 'order_time',
+			title : '到货时间',
+			width : 120,
+			sortable : true,
+			formatter : function(value, row, index) {
+				if (value != null && value != '') {
+					var unixTimestamp = new Date(value);
+					value = unixTimestamp.format('yyyy-MM-dd');
+				}
+				return value;
+			}
+		}, {
+			field : 'order_num',
+			title : '到货数量',
+			width : 120,
+			sortable : true
+		}, {
+			field : 'order_remark',
+			title : '备注',
+			width : 120,
+			sortable : true
+		} ] ],
+		loadFilter : function(data) {
+			if (data.result && data.result == 'fail') { //失败时，错误消息提示
+				showWarnMsg(data.msg);
+				return {};
+			} else {
+				return data;
+			}
+		}
+	};
+	$(function() {
+		datagrid.datagrid(dgOptions);
+	});
+
+	function addOrderPage() {
+		top.window.subPage.loadCurrDatagrid = function() {
+			showMsg("增加成功,请再次刷新主页面！");
+			datagrid.datagrid("load");
+		}
+		top.openWindow("到货记录-增加",
+				getCurrUrl("addOrderPage") + "?emd_id=${id!''}", {
+					size : '600x360'
+				});
+	}
+
+	function updateOrderPage() {
+		var rowsSel = datagrid.datagrid("getSelections");
+		if (rowsSel.length != 1) {
+			showWarnMsg("请选择需要编辑的一条数据！");
+			return;
+		}
+		var id = rowsSel[0].id;
+		top.window.subPage.loadCurrDatagrid = function() {
+			showMsg("更新成功，请再次刷新主页面！");
+			datagrid.datagrid("reload");
+		}
+		top.openWindow("到货记录-编辑", getCurrUrl("updateOrderPage") + "?id="+id , {
+			size : '600x360'
+		});
+	}
+
+	function delOrder() {
+		var ids = [];
+		var emd_id = null;
+		$.each(datagrid.datagrid("getSelections"), function(i, item) {
+			ids.push(item.id);
+			if(emd_id==null){
+				emd_id = item.emd_id;
+			}
+		});
+		if (ids.length < 1) {
+			showWarnMsg("请选择需要删除的数据！");
+			return;
+		}
+		confirmMsg("确认删除？", function() {
+			$.post("orderDelete", {
+				id : ids,
+				emd_id:emd_id
+			}, function(data) {
+				showMsg("删除成功！");
+				datagrid.datagrid("reload");
+				parent.window.reloadDataGrid();
+			});
+		});
+	}
+
+	//扩展js
+</script>
+
+<#include "/common/dialogWindow.html"/>
+<#include "/common/foot.html"/>

@@ -1,0 +1,81 @@
+﻿<#include "/common/head.html"/>
+<link rel="stylesheet" type="text/css" href="${basePath}/res/css/login-style.css?3">
+<script type="text/javascript">
+if (self != top) {  //主页不允许在iframe中
+	top.window.location.reload();
+}
+</script>
+<style>
+body{
+	background-color:#1c77ac; 
+	background-image:url(${basePath}/res/css/images/light.png);
+    background-repeat:no-repeat; 
+    background-position:center top; overflow:hidden;
+}
+</style>
+<div id="mainBody">
+	<div id="cloud1" class="cloud"></div>
+	<div id="cloud2" class="cloud"></div>
+</div>
+<div class="logintop">
+    <span>欢迎登录FN实验室管理系统</span>
+</div>
+<form id="ff" class="easyui-form" method="post" action="zcurdHead/main" >
+<div class="loginbody">
+    <span class="systemlogo" style="height: 51px;margin-top: 5%;"></span>
+    <div class="loginbox loginbox1">
+        <ul>
+            <li><input id="username" name="username" type="text" class="loginuser easyui-validatebox" data-options="required:true,validType:'length[2,20]'"  placeholder="用户名"/>
+          CSL登录</li>
+            <li><input id="password" name="password" type="password" class="loginpwd easyui-validatebox"  data-options="required:true"  placeholder="密码"/></li>
+            <li>
+                <input name="" type="button" class="loginbtn" value="登录" onclick="javascript:login();"/>
+            </li>
+            
+            <li style="margin-top: 40px;line-height: 35px">
+            	<a href="https://nokia.sharepoint.com/sites/FNDH/SitePages/FN-Shanghai-Lab-Admin-On-Duty-Calendar.aspx" target="_blank">实验室管理员当值信息</a> &nbsp;&nbsp;|&nbsp;&nbsp;
+            	<a href="http://135.251.207.227/nsblab/" target="_blank">新工单系统</a> &nbsp;&nbsp;|&nbsp;&nbsp;
+            	<a href="\\135.251.39.51\" target="_blank" class="ciofile">文件共享</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="loginbm">友情下载&nbsp;&nbsp;
+    	<#list attaches as p>
+			    	<a href="${basePath}/attach/downloadAttachFile?fileName=${p.file_name}">${p.title}</a>
+			    	<#if (p_has_next)>
+			    		&nbsp;|&nbsp;
+			    	</#if>
+    	</#list>
+</div>
+</form>
+<script type="text/javascript">
+	$(function(){
+		 $('.loginbox').css({'position': 'absolute', 'left': ($(window).width() - 692) / 2});
+	        $(window).resize(function () {
+	            $('.loginbox').css({'position': 'absolute', 'left': ($(window).width() - 692) / 2});
+	        })
+	});
+	//回车登陆
+	document.onkeydown = function() {
+	    if(event.keyCode==13) {
+	    	login();
+	        return false;                               
+	    }
+	}
+	function login() {
+		if($("#ff").form('validate')) {
+			var param = {"user_name":$(":input[name='username']").val(), "password":$(":input[name='password']").val()};
+			$.post("${basePath}/login/login", param, function(data) {
+				if(data.result == "success") {
+					//$('#ff').submit();
+					location.href = "main";
+				}else {
+					showWarnMsg(data.msg);
+				}
+			});
+		}
+	}
+</script>
+
+<#include "/common/foot.html"/>

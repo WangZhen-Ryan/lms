@@ -1,0 +1,140 @@
+
+<#include "/common/head.html"/>
+
+<script type="text/javascript" src="//static.runoob.com/assets/qrcode/qrcode.min.js"></script>
+ <div class="easyui-panel detailPage multiple" data-options="fit:true,border:false">
+    <form id="ff" class="easyui-form" method="post">
+        <table class="table1" >
+            <tr>
+           		<th><span id="Category_label">分类名册：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.Category!''}</pre></span></td>
+           		<th><span id="Location_label">位置：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.Location!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="Type_label">名称：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.Type!''}</pre></span></td>
+           		<th><span id="Code_label">产品编码：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.Code!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="ICS_label">版本：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.ICS!''}</pre></span></td>
+           		<th><span id="SN_label">序列号：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.SN!''}</pre></span>
+						<input id="text" onclick="makeCode()" value= ${model.SN!''} style="width:80%" /><br />
+						<div id="qrcode" style="width:100px; height:100px; margin-top:15px;">
+							<input type="botton" onclick = printView("qrcode") value = 打印预览 style="width:80%" />
+						</div></td>
+            </tr>
+            <tr>
+           		<th><span id="Status_label">状态：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.Status!''}</pre></span></td>
+           		<th><span id="User_label">使用人：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.User!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="OUT_from_label">借用日：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.OUT_from!''}</pre></span></td>
+           		<th><span id="OUT_till_label">归还日：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.OUT_till!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="Project_label">申请人：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.Project!''}</pre></span></td>
+           		<th><span id="Handler_label">最后修改人：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.Handler!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="Platform_label">平台：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.Platform!''}</pre></span></td>
+           		<th><span id="Remarks_label">备注：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.Remarks!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="Inventory_Date_label">录入日期：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.Inventory_Date!''}</pre></span></td>
+           		<th><span id="PR_EMD_No_label">对应PR_EMD：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.PR_EMD_No!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="PO_UPE_label">对应PO工程号：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.PO_UPE!''}</pre></span></td>
+	              <th><span id="stock_exist_label">是否存在：</span></th>
+	            <td><span class="valueSpan"><pre>${model.stock_exist!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="stock_man_label">盘点人：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.stock_man!''}</pre></span></td>
+	             	<th><span id="stock_time_label">盘点时间：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.stock_time!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="stock_remark_label">盘点注释：</span></th>
+	             <td colspan="3"><span class="valueSpan"><pre>${model.stock_remark!''}</pre></span></td>
+            </tr>
+            <tr>
+            	<th><span id="pic_label">照片：</span></th>
+	               	<td colspan="3">
+	               		<#if model.pic??>
+							 <img style="width:30%;height:40%;" src="${basePath}/res/upload/pic/material/${model.pic}" />'
+						</#if>
+	               	</td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script>
+	var qrcode = new QRCode(document.getElementById("qrcode"), {
+		width : 100,
+		height : 100
+	});
+
+	function makeCode () {
+		var elText = document.getElementById("text");
+
+		if (!elText.value) {
+			alert("Input a text");
+			elText.focus();
+			return;
+		}
+
+		qrcode.makeCode(elText.value);
+	}
+
+	$("#text").
+		on("blur", function () {
+			makeCode();
+		}).
+		on("keydown", function (e) {
+			if (e.keyCode == 13) {
+				makeCode();
+			}
+		});
+$(function(){
+	hideButton();
+});
+
+
+function printView(idstr){
+    var el = document.getElementById(idstr);
+            var iframe = document.createElement('IFRAME');
+            var doc = null;
+            iframe.setAttribute('style',
+            'position:absolute;width:0px;height:0px;left:-500px;top:-500px;');
+            document.body.appendChild(iframe);
+            doc = iframe.contentWindow.document;
+            doc.write('<div>' + el.innerHTML + '</div>');
+            doc.close();
+            var img = $(doc).find("img");
+            for(var i = 0; i < img.length; i++) {
+                img.eq(i).css("margin", "0 auto");
+            }
+            iframe.contentWindow.focus();
+            iframe.contentWindow.print();
+            if(navigator.userAgent.indexOf("MSIE") > 0) {
+                document.body.removeChild(iframe);
+            }}
+//扩展js
+</script>
+<#include "/common/foot.html"/>

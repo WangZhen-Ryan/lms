@@ -1,0 +1,384 @@
+<#include "/common/head.html"/>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+</head>
+<body>
+
+
+<button onclick="myInput(get_item())">Charts</button>
+    <div id="main" style="width: 900px;height:900px;"></div>
+
+    <script type="text/javascript">
+       var myChart = echarts.init(document.getElementById('main'));
+var item_name = get_item();
+function get_item(){
+	item_name = prompt("Please input a valid item name", "FANT-H");
+	return item_name;
+}
+
+function myInput(item_name){
+	if (item_name != null && item_name != ""){
+		myChart.setOption(option);
+		}
+}
+
+	var builderJson = {
+	  "all": getDictTotal(),
+	  "charts": getCategory(),
+	  "components":getS_Category(),
+	  "ie": 9743
+	};
+
+	var downloadJson = getPEM_Category();
+
+	var themeJson = getNone_PEM_Category();
+
+	var waterMarkText = 'ECHARTS';
+
+	var canvas = document.createElement('canvas');
+	var ctx = canvas.getContext('2d');
+	canvas.width = canvas.height = 100;
+	ctx.textAlign = 'center';
+	ctx.textBaseline = 'middle';
+	ctx.globalAlpha = 0.08;
+	ctx.font = '20px Microsoft Yahei';
+	ctx.translate(50, 50);
+	ctx.rotate(-Math.PI / 4);
+	ctx.fillText(waterMarkText, 0, 0);
+
+	option = {
+		backgroundColor: {
+			type: 'pattern',
+			image: canvas,
+			repeat: 'repeat'
+		},
+		tooltip: {},
+		title: [{
+			text: '借出统计',
+			subtext: '总计 ' + builderJson.all,
+			x: '25%',
+			textAlign: 'center'
+		}, {
+			text: 'Common Total',
+			subtext: '总计 ' + Object.keys(PEM_map).reduce(function (all, key) {
+				return all + PEM_map[key];
+			}, 0),
+			x: '75%',
+			textAlign: 'center'
+		}, {
+			text: 'PEM Total',
+			subtext: '总计 ' + Object.keys(None_PEM_map).reduce(function (all, key) {
+				return all + None_PEM_map[key];
+			}, 0),
+			x: '75%',
+			y: '50%',
+			textAlign: 'center'
+		}],
+		grid: [{
+			top: 45,
+			width: '60%',
+			bottom: '35%',
+			left: 10,
+			containLabel: true
+		}, {
+			top: '65%',
+			width: '30%',
+			bottom: 0,
+			left: 10,
+			containLabel: true
+		}],
+		xAxis: [{
+			type: 'value',
+			max: builderJson.all,
+			splitLine: {
+				show: false
+			}
+		}, {
+			type: 'value',
+			max: builderJson.all,
+			gridIndex: 1,
+			splitLine: {
+				show: false
+			}
+		}],
+		yAxis: [{
+			type: 'category',
+			data: Object.keys(map),
+			axisLabel: {
+				interval: 0,
+				rotate: 0
+			},
+			splitLine: {
+				show: false
+			}
+		}, {
+			gridIndex: 1,
+			type: 'category',
+			data: Object.keys(S_map),
+			axisLabel: {
+				interval: 0,
+				rotate: 0
+			},
+			splitLine: {
+				show: false
+			}
+		}],
+		series: [{
+			type: 'bar',
+			stack: 'chart',
+			z: 3,
+			label: {
+				normal: {
+					position: 'right',
+					show: true
+				}
+			},
+			data: Object.keys(map).map(function (key) {
+				return map[key];
+			})
+		}, {
+			type: 'bar',
+			stack: 'chart',
+			silent: true,
+			itemStyle: {
+				normal: {
+					color: '#eee'
+				}
+			},
+			data: Object.keys(map).map(function (key) {
+				return builderJson.all - map[key];
+			})
+		}, {
+			type: 'bar',
+			stack: 'component',
+			xAxisIndex: 1,
+			yAxisIndex: 1,
+			z: 3,
+			label: {
+				normal: {
+					position: 'right',
+					show: true
+				}
+			},
+			data: Object.keys(S_map).map(function (key) {
+				return S_map[key];
+			})
+		}, {
+			type: 'bar',
+			stack: 'component',
+			silent: true,
+			xAxisIndex: 1,
+			yAxisIndex: 1,
+			itemStyle: {
+				normal: {
+					color: '#eee'
+				}
+			},
+			data: Object.keys(S_map).map(function (key) {
+				return builderJson.all - S_map[key];
+			})
+		}, {
+			type: 'pie',
+			radius: [0, '30%'],
+			center: ['75%', '25%'],
+			data: Object.keys(PEM_map).map(function (key) {
+				return {
+					name: key.replace('.js', ''),
+					value: PEM_map[key]
+				}
+			})
+		}, {
+			type: 'pie',
+			radius: [0, '30%'],
+			center: ['75%', '75%'],
+			data: Object.keys(None_PEM_map).map(function (key) {
+				return {
+					name: key.replace('.js', ''),
+					value: None_PEM_map[key]
+				}
+			})
+		}]
+	}
+
+
+    var number;
+
+    function getDictTotal() {
+        $.ajax({
+            type: "post",
+            async: false,
+            url: "../statistic/l",
+            data: {"item_name":item_name},
+            dataType: "json",
+            success: function(result){
+                if(result){
+							number = result.all
+                }
+            },
+            error: function(errmsg) {
+                alert("Ajax获取服务器数据出错了！"+ errmsg);
+            }
+        });
+    return number;
+    }
+
+<!--		var map = {};-->
+<!--        function getCategory() {-->
+
+<!--        $.ajax({-->
+<!--            type: "post",-->
+<!--            async: false,-->
+<!--            url: "../statistic/c",-->
+<!--            data: {},-->
+<!--            dataType: "json",-->
+<!--            success: function(result){-->
+<!--                console.log(result);-->
+<!--                if(result){-->
+
+<!--&lt;!&ndash;                console.log(fun(result));&ndash;&gt;-->
+<!--&lt;!&ndash;                return fun(result);&ndash;&gt;-->
+
+<!--  var temp = {};-->
+<!--                    for(var key in result){-->
+
+<!--                      var value = eval("result['" + key+ "']");-->
+<!--						temp[key] = value;-->
+<!--                       }-->
+<!--                       map = temp;-->
+<!--                       console.log(map);-->
+<!--				return (map);-->
+<!--                }-->
+<!--            },-->
+<!--            error: function(errmsg) {-->
+<!--                alert("Ajax获取服务器数据出错了！"+ errmsg);-->
+<!--            }-->
+<!--        });-->
+<!--    }-->
+
+	var map;
+function getCategory() {
+
+$.ajax({
+    type: "post",
+    async: false,
+    url: "../statistic/c",
+    data: {"item_name":item_name},
+    dataType: "json",
+    success: function(result){
+        console.log(result);
+        if(result){
+
+
+var temp = {};
+            for(var key in result){
+
+              var value = eval("result['" + key+ "']");
+    temp[key] = value;
+               }
+               map = result;
+               console.log(map);
+return map;
+        }
+    },
+    error: function(errmsg) {
+        alert("Ajax获取服务器数据出错了！"+ errmsg);
+    }
+});
+}
+
+	var S_map;
+function getS_Category() {
+
+$.ajax({
+    type: "post",
+    async: false,
+    url: "../statistic/S_c",
+    data:{"item_name":item_name},
+    dataType: "json",
+    success: function(result){
+        console.log(result);
+        if(result){
+		var temp = {};
+            for(var key in result){
+
+              var value = eval("result['" + key+ "']");
+    temp[key] = value;
+               }
+               S_map = result;
+               console.log(S_map);
+return S_map;
+        }
+    },
+    error: function(errmsg) {
+        alert("Ajax获取服务器数据出错了！"+ errmsg);
+    }
+});
+}
+
+
+		var PEM_map;
+	function getPEM_Category() {
+
+	$.ajax({
+		type: "post",
+		async: false,
+		url: "../statistic/p",
+		data:{"item_name":item_name},
+		dataType: "json",
+		success: function(result){
+			console.log(result);
+			if(result){
+			var temp = {};
+				for(var key in result){
+
+				  var value = eval("result['" + key+ "']");
+		temp[key] = value;
+				   }
+				   PEM_map = result;
+				   console.log(PEM_map);
+	return PEM_map;
+			}
+		},
+		error: function(errmsg) {
+			alert("Ajax获取服务器数据出错了！"+ errmsg);
+		}
+	});
+	}
+
+
+		var None_PEM_map;
+	function getNone_PEM_Category() {
+
+	$.ajax({
+		type: "post",
+		async: false,
+		url: "../statistic/np",
+		data: {"item_name":item_name},
+		dataType: "json",
+		success: function(result){
+			console.log(result);
+			if(result){
+			var temp = {};
+				for(var key in result){
+
+				  var value = eval("result['" + key+ "']");
+		temp[key] = value;
+				   }
+				   None_PEM_map = result;
+				   console.log(None_PEM_map);
+	return None_PEM_map;
+			}
+		},
+		error: function(errmsg) {
+			alert("Ajax获取服务器数据出错了！"+ errmsg);
+		}
+	});
+	}
+
+
+</script>
+</body>
+</html>

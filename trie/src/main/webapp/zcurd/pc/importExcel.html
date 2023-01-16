@@ -1,0 +1,47 @@
+
+ <#include "/common/head.html"/>
+<script type="text/javascript" src="${basePath}/res/js/ajaxupload.js"></script>
+
+<div class="easyui-panel importExcelPage" data-options="fit:true,border:false">
+	<div style="color: red">注意：点击完上传按钮后，系统会直接进行上传操作。第一行数据为测试数据，请自行删除！</div>
+	<form id="ff" class="easyui-form" method="post" enctype="multipart/form-data">
+		<table class="table1">
+			<tr>
+				<td>
+					<a href="javascript:void(0)" class="easyui-linkbutton" id="aa">上传</a> 
+					<a href="downloadFile?fileName=pc" id="downloadBtn" class="easyui-linkbutton">下载模板</a></td>
+			</tr>
+		</table>
+	</form>
+</div>
+<script>
+	top.window.subPage.save = save;
+	var cc = new AjaxUpload('#aa', {
+		action : 'importExcel',
+		name : 'file',
+		autoSubmit : true,
+		responseType : "json",
+		onSubmit : function(file, extension) {
+			if (!(extension && /^(xls|xlsx)$/.test(extension.toLowerCase()))) {
+				showWarnMsg('只支持excel格式文件上传！');
+				return false;
+			}
+		},
+		onComplete : function(file, data) {
+			if(data.result=="success"){
+				showMsg(data.msg);
+				top.window.closeWindow();
+				top.window.subPage.loadCurrDatagrid();
+			}else{
+				showWarnMsg(data.msg);
+			}
+		}
+	});
+	function save() {
+		top.window.closeWindow();
+		top.window.subPage.loadCurrDatagrid();
+	}
+
+	//扩展js
+</script>
+<#include "/common/foot.html"/>

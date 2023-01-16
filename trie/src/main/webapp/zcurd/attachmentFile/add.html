@@ -1,0 +1,75 @@
+
+<#include "/common/head.html"/>
+<script type="text/javascript" src="${basePath}/res/js/ajaxupload.js"></script>
+
+ <div class="easyui-panel addPage" data-options="fit:true,border:false,novalidate:true">
+    <form class="easyui-form" id="ff" method="post" data-options="novalidate:true">
+        <table class="table1">
+            <tr>
+           		<th><span id="title_label">标题：</span></th>
+               	<td>
+               		<div class="wrap_input"><input class="easyui-textbox" type="text" name="title" id="title" value="" data-options="fit: true,required:true"></input></div>
+           		</td>
+           	</tr>
+           	  <tr>
+           		<th><span id="title_label">附件：</span></th>
+               	<td>
+               		<div class="wrap_input">
+               			<input class="easyui-textbox" type="text" id="uf" data-options="disabled:true,readonly:true,editable:false" style="width:300px;"/>
+               			<a href="javascript:void(0)" class="easyui-linkbutton" id="aa">上传</a>
+               		 </div>
+           		</td>
+           	</tr>
+        </table>
+    </form>
+</div>
+<script>
+$(function(){
+	top.window.subPage.save = save;
+	var cc = new AjaxUpload("#aa", {
+		action : 'add',
+		name : 'file',
+		autoSubmit : false,
+		responseType : "json",
+		onSubmit : function(file, extension) {
+		},
+		onChange: function(file, extension){
+			$("#uf").textbox("setValue",file);
+        },
+		onComplete : function(file, data) {
+			if(data.result=="success"){
+				showMsg(data.msg);
+				top.window.closeWindow();
+				top.window.subPage.loadCurrDatagrid();
+			}else{
+				showWarnMsg(data.msg);
+			}
+		}
+	});
+	function save() {
+		if($("#ff").form('enableValidation').form('validate')) {
+			if($("#uf").textbox('getValue')!=''){
+				var data = getParam();
+				cc.setData(data);
+				cc.submit();
+			}else{
+				showWarnMsg("请上传文件");
+			}
+		}
+	}
+	function getParam() {
+		var param = {
+	       	"model.title": getInputValue("title"), 
+		}
+		for(key in param) {
+			if(!param[key]) {
+				delete param[key];
+			}
+		}
+		return param;
+	}
+});
+
+//扩展js
+</script>
+<#include "/common/foot.html"/>

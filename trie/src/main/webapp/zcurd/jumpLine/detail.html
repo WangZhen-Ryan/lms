@@ -1,0 +1,48 @@
+
+<#include "/common/head.html"/>
+
+
+ <div class="easyui-panel detailPage multiple" data-options="fit:true,border:false">
+    <form id="ff" class="easyui-form" method="post">
+        <table class="table1">
+            <tr>
+           		<th><span id="location_label">位置：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.location!''}</pre></span></td>
+           		<th><span id="con_cabinet_label">汇聚柜：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.con_cabinet!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="dis_no_label">配线架号：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.dis_no!''}</pre></span></td>
+           		<th><span id="corr_pos_label">对应位：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.corr_pos!''}</pre></span></td>
+            </tr>
+            <tr>
+            	<th><span id="jump_conn_label">跳线连接：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.jump_conn!''}</pre></span></td>
+           		<th><span id="user_label">使用人：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.user!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="from_date_label">起始时间：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.from_date!''}</pre></span></td>
+           		<th><span id="till_date_label">结束时间：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.till_date!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="project_label">项目：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.project!''}</pre></span></td>
+           		<th><span id="remark_label">备注：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.remark!''}</pre></span></td>
+            </tr>
+           	
+        </table>
+    </form>
+</div>
+<script>
+$(function(){
+	hideButton();
+});
+//扩展js
+</script>
+<#include "/common/foot.html"/>

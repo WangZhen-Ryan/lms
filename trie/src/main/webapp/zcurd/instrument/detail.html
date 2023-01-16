@@ -1,0 +1,98 @@
+
+<#include "/common/head.html"/>
+
+
+<div class="easyui-panel detailPage"
+	data-options="fit:true,border:false">
+	<form id="ff" class="easyui-form" method="post">
+		<table class="table1">
+			<tr>
+				<th><span id="instrument_type_lable">仪表类型：</span></th>
+				<td><span class="valueSpan"><pre>${model.instrument_type!''}</pre></span></td>
+				<th><span id="location_label">位置：</span></th>
+				<td><span class="valueSpan"><pre>${model.location!''}</pre></span></td>
+			</tr>
+			<tr>
+				<th><span id="date_label">数据跳线：</span></th>
+				<td><span class="valueSpan"><pre>${model.date!''}</pre></span></td>
+				<th><span id="mdf_label">对应数据跳线：</span></th>
+				<td><span class="valueSpan"><pre>${model.mdf!''}</pre></span></td>
+			</tr>
+			<tr>
+				<th><span id="fiber_label">光纤跳线：</span></th>
+				<td><span class="valueSpan"><pre>${model.fiber!''}</pre></span></td>
+				<th><span id="odf_label">对应光纤跳线：</span></th>
+				<td><span class="valueSpan"><pre>${model.odf!''}</pre></span></td>
+			</tr>
+			<tr>
+				<th><span id="ip_label">IP：</span></th>
+				<td><span class="valueSpan"><pre>${model.ip!''}</pre></span></td>
+				<th><span id="modulemo_label">规格型号：</span></th>
+				<td><span class="valueSpan"><pre>${model.modulemo!''}</pre></span></td>
+			</tr>
+			<tr>
+				<th><span id="moduletype_label">类型：</span></th>
+				<td><span class="valueSpan"><pre>${model.moduletype!''}</pre></span></td>
+				<th><span id="port_label">端口：</span></th>
+				<td><span class="valueSpan"><pre>${model.port!''}</pre></span></td>
+			</tr>
+			<tr>
+				<th><span id="status_label">状态：</span></th>
+				<td><span class="valueSpan"><pre>${model.status!''}</pre></span></td>
+				<th><span id="model_label">型号：</span></th>
+				<td><span class="valueSpan"><pre>${model.model!''}</pre></span></td>
+			</tr>
+			<tr>
+				<th><span id="assetno_label">资产编号：</span></th>
+				<td><span class="valueSpan"><pre>${model.assetno!''}</pre></span></td>
+				<th><span id="sn_label">SN：</span></th>
+				<td><span class="valueSpan"><pre>${model.sn!''}</pre></span></td>
+			</tr>
+			<tr>
+				<th><span id="user_label">使用人：</span></th>
+				<td><span class="valueSpan"><pre>${model.user!''}</pre></span></td>
+				<th><span id="borrower_label">申请人：</span></th>
+				<td><span class="valueSpan"><pre>${model.borrower!''}</pre></span></td>
+			</tr>
+			<tr>
+				<th><span id="outfrom_label">借用日：</span></th>
+				<td><span class="valueSpan"><pre>${model.outfrom!''}</pre></span></td>
+				<th><span id="outtill_label">结束日：</span></th>
+				<td><span class="valueSpan"><pre>${model.outtill!''}</pre></span></td>
+			</tr>
+			<tr>
+				<th><span id="project_label">项目：</span></th>
+				<td><span class="valueSpan"><pre>${model.project!''}</pre></span></td>
+				<th><span id="modulesn_label">模块编号：</span></th>
+				<td><span class="valueSpan"><pre>${model.modulesn!''}</pre></span></td>
+			</tr>
+			<tr>
+				<th><span id="owner_label">资产所有人：</span></th>
+				<td><span class="valueSpan"><pre>${model.owner!''}</pre></span></td>
+				<th><span id="remark_label">备注：</span></th>
+				<td><span class="valueSpan"><pre>${model.remark!''}</pre></span></td>
+			</tr>
+			<tr>
+				<th><span id="meterno_label">计量编号：</span></th>
+				<td><span class="valueSpan"><pre>${model.meterno!''}</pre></span></td>
+				<th><span id="number_label">数量：</span></th>
+				<td><span class="valueSpan"><pre>${model.number!''}</pre></span></td>
+			</tr>
+			<tr>
+				<th><span id="pic_label">照片：</span></th>
+				<td colspan="3">
+						<#if model.pic??>
+							 <img style="width:30%;height:40%;" src="${basePath}/res/upload/pic/instrument/${model.pic}" />'
+						</#if>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+<script>
+$(function(){
+	hideButton();
+});
+//扩展js
+</script>
+<#include "/common/foot.html"/>

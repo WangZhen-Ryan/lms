@@ -1,0 +1,171 @@
+
+<#include "/common/head.html"/>
+
+
+ <div class="easyui-panel addPage multiple" data-options="fit:true,border:false,novalidate:true">
+    <form class="easyui-form" id="ff" method="post" data-options="novalidate:true">
+        <table class="table1">
+            <tr>
+           		<th><span id="emd_date_label">日期：</span></th>
+               	<td>
+               		<div class="wrap_input"><input class="easyui-datebox" type="text" name="emd_date" id="emd_date" value="" data-options="fit: true,required:true,editable:false"></input></div>
+           		</td>
+           		<th><span id="emd_no_label">领料单编号：</span></th>
+               	<td>
+               		<div class="wrap_input"><input class="easyui-textbox" type="text" name="emd_no" id="emd_no" value="" data-options="fit: true,required:true"></input></div>
+           		</td>
+            </tr>
+            <tr>
+           		<th><span id="po_no_label">工程号：</span></th>
+               	<td>
+               		<div class="wrap_input"><input class="easyui-textbox" type="text" name="po_no" id="po_no" value="" data-options="fit: true"></input></div>
+           		</td>
+           		<th><span id="deadline_label">期望到货：</span></th>
+               	<td>
+               		<div class="wrap_input"><input class="easyui-datebox" type="text" name="deadline" id="deadline" value="" data-options="fit: true,required:true,editable:false"></input></div>
+           		</td>
+            </tr>
+            <tr>
+           		<th><span id="propose_label">申请人：</span></th>
+               	<td>
+               		<div class="wrap_input">
+               			<input class="easyui-combobox" type="text" name="proposer" id="proposer" data-options="
+	            				valueField: 'id',
+   								textField: 'text',
+   								fit: true,
+	            				data: [
+	            					{id:'', text:''}<#list dictDataUser.keySet() as key>,{id:'${key}', text:'${dictDataUser.get(key)}'}</#list>
+	            				],
+	            				required:true,
+	            				panelHeight:'auto'" >
+               		</div>
+           		</td>
+           		<th><span id="cc_label">能力中心：</span></th>
+               	<td>
+               		<div class="wrap_input"><input class="easyui-textbox" type="text" name="cc" id="cc" value="" data-options="fit: true"></input></div>
+           		</td>
+            </tr>
+            <tr>
+           		<th><span id="lab_label">实验室：</span></th>
+               	<td>
+               		<div class="wrap_input"><input class="easyui-textbox" type="text" name="lab" id="lab" value="" data-options="fit: true"></input></div>
+           		</td>
+           		<th><span id="instrument_code_label">物料编号：</span></th>
+               	<td>
+               		<div class="wrap_input"><input class="easyui-textbox" type="text" name="instrument_code" id="instrument_code" value="" data-options="fit: true"></input></div>
+           		</td>
+            </tr>
+            <tr>
+           		<th><span id="instrument_name_label">物料名称：</span></th>
+               	<td>
+               		<div class="wrap_input"><input class="easyui-textbox" type="text" name="instrument_name" id="instrument_name" value="" data-options="fit: true"></input></div>
+           		</td>
+           		<th><span id="qty_label">数量：</span></th>
+               	<td>
+               		<div class="wrap_input"><input class="easyui-numberspinner" type="text" name="qty" id="qty" value="" data-options="fit: true,min:0"></input></div>
+           		</td>
+            </tr>
+            <tr>
+           		<th><span id="unit_price_label">单价：</span></th>
+               	<td>
+               		<div class="wrap_input"><input class="easyui-numberbox" type="text" name="unit_price" id="unit_price" value="" data-options="fit: true,min:0"></input></div>
+           		</td>
+           		<th><span id="total_label">总价：</span></th>
+               	<td>
+               		<div class="wrap_input"><input class="easyui-numberbox" type="text" name="total" id="total" value="" data-options="fit: true,min:0"></input></div>
+           		</td>
+            </tr>
+            <tr>
+           		<th><span id="project_label">项目：</span></th>
+               	<td>
+               		<div class="wrap_input"><input class="easyui-textbox" type="text" name="project" id="project" value="" data-options="fit: true"></input></div>
+           		</td>
+           		<th><span id="project_no_label">项目编号：</span></th>
+               	<td>
+               		<div class="wrap_input"><input class="easyui-textbox" type="text" name="project_no" id="project_no" value="" data-options="fit: true"></input></div>
+           		</td>
+            </tr>
+            <tr>
+           		<th><span id="cost_center_label">成本中心：</span></th>
+               	<td>
+               		<div class="wrap_input"><input class="easyui-textbox" type="text" name="cost_center" id="cost_center" value="" data-options="fit: true"></input></div>
+           		</td>
+           		<th><span id="emd_stauts_label">领料单状态：</span></th>
+               	<td>
+               		<div class="wrap_input"><input class="easyui-textbox" type="text" name="emd_stauts" id="emd_stauts" value="" data-options="fit: true"></input></div>
+           		</td>
+            </tr>
+            <tr>
+           		<th><span id="real_date_label">实际领到日期：</span></th>
+               	<td>
+               		<div class="wrap_input"><input class="easyui-datebox" type="text" name="real_date" id="real_date" value="" data-options="fit: true,editable:false"></input></div>
+           		</td>
+           		<th><span id="maker_label">制单&跟踪人：</span></th>
+               	<td>
+               		<div class="wrap_input">
+               			<input class="easyui-combobox" type="text" name="maker" id="maker" data-options="
+	            				valueField: 'id',
+   								textField: 'text',
+   								fit: true,
+	            				data: [
+	            					{id:'', text:''}<#list dictDataUser.keySet() as key>,{id:'${key}', text:'${dictDataUser.get(key)}'}</#list>
+	            				],
+	            				panelHeight:'auto'" >
+               		</div>
+           		</td>
+            </tr>
+            <tr>
+           		<th><span id="remark_label">备注：</span></th>
+               	<td colspan="3">
+               		<div class="wrap_input"><input class="easyui-textbox" type="text" name="remark" id="remark" value="" data-options="fit: true"></input></div>
+           		</td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script>
+top.window.subPage.save = save;
+function save() {
+	if($("#ff").form('enableValidation').form('validate')) {
+		$.post("add", getParam(), function(data) {
+			if(data.result=="success"){
+				top.window.closeWindow();
+				top.window.subPage.loadCurrDatagrid();
+			}
+		});
+	}
+}
+function getParam() {
+	var param = {
+	     
+       		"model.emd_date": getInputValue("emd_date"), 
+       		"model.emd_no": getInputValue("emd_no"), 
+       		"model.po_no": getInputValue("po_no"), 
+       		"model.deadline": getInputValue("deadline"), 
+       		"model.proposer": getInputValue("proposer"), 
+       		"model.cc": getInputValue("cc"), 
+       		"model.lab": getInputValue("lab"), 
+       		"model.instrument_code": getInputValue("instrument_code"), 
+       		"model.instrument_name": getInputValue("instrument_name"), 
+       		"model.qty": getInputValue("qty"), 
+       		"model.unit_price": getInputValue("unit_price"), 
+       		"model.total": getInputValue("total"), 
+       		"model.project": getInputValue("project"), 
+       		"model.project_no": getInputValue("project_no"), 
+       		"model.cost_center": getInputValue("cost_center"), 
+       		"model.emd_stauts": getInputValue("emd_stauts"), 
+       		"model.real_date": getInputValue("real_date"), 
+       		"model.maker": getInputValue("maker"), 
+       		"model.remark": getInputValue("remark"), 
+	}
+	for(key in param) {
+		if(!param[key]) {
+			delete param[key];
+		}
+	}
+	return param;
+}
+
+//扩展js
+</script>
+<#include "/common/foot.html"/>

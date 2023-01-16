@@ -1,0 +1,33 @@
+
+<#include "/common/head.html"/>
+
+
+ <div class="easyui-panel detailPage" data-options="fit:true,border:false">
+    <form id="ff" class="easyui-form" method="post">
+        <table class="table1">
+            <tr>
+           		<th><span id="menu_id_label">菜单：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.menu_id!''}</pre></span></td>
+            <tr>
+           		<th><span id="field_name_label">字段名称：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.field_name!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="symbol_label">符号：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.symbol!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="value_label">字段件值：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.value!''}</pre></span></td>
+            </tr>
+           	
+        </table>
+    </form>
+</div>
+<script>
+$(function(){
+	hideButton();
+});
+//扩展js
+</script>
+<#include "/common/foot.html"/>

@@ -1,0 +1,71 @@
+
+<#include "/common/head.html"/>
+
+ <div class="easyui-panel detailPage multiple" data-options="fit:true,border:false">
+    <form id="ff" class="easyui-form" method="post">
+        <table class="table1">
+            <tr>
+           		<th><span id="pr_date_label">填写日：</span></th>
+	               	<td><span class="valueSpan">${model.pr_date!''}</span></td>
+           		<th><span id="pr_no_label">PR号：</span></th>
+	              <td><span class="valueSpan">${model.pr_no!''}</span></td>
+            </tr>
+            <tr>
+           		<th><span id="po_no_label">PO号：</span></th>
+	               	<td><span class="valueSpan">${model.po_no!''}</span></td>
+           		<th><span id="deadline_label">期望到货：</span></th>
+	               	<td><span class="valueSpan">${model.deadline!''}</span></td>
+            </tr>
+            <tr>
+           		<th><span id="requester_label">需求人：</span></th>
+	               	<td><span class="valueSpan">${model.requester!''}</span></td>
+           		<th><span id="project_label">项目：</span></th>
+	               	<td><span class="valueSpan">${model.project!''}</span></td>
+            </tr>
+            <tr>
+           		<th><span id="cc_label">能力中心：</span></th>
+	               	<td><span class="valueSpan">${model.cc!''}</span></td>
+           		<th><span id="lab_label">实验室：</span></th>
+	               	<td><span class="valueSpan">${model.lab!''}</span></td>
+            </tr>
+            <tr>
+           		<th><span id="description_label">描述：</span></th>
+	               	<td colspan="3"><span class="valueSpan">${model.description!''}</span></td>
+            </tr>
+            <tr>
+           		<th><span id="qty_label">数量：</span></th>
+	               	<td><span class="valueSpan">${model.qty!''}</span></td>
+           		<th><span id="currency_label">货币：</span></th>
+	               	<td><span class="valueSpan">${model.currency!''}</span></td>
+            </tr>
+            <tr>
+           		<th><span id="unit_price_label">单价：</span></th>
+	               	<td><span class="valueSpan">${model.unit_price!''}</span></td>
+           		<th><span id="total_label">总价：</span></th>
+	               	<td><span class="valueSpan">${model.total!''}</span></td>
+            </tr>
+            <tr>
+           		<th><span id="buyer_label">填写人：</span></th>
+	               	<td><span class="valueSpan">${model.buyer!''}</span></td>
+           		<th><span id="order_date_label">到货日期：</span></th>
+	               	<td><span class="valueSpan">${model.order_date!''}</span></td>
+            </tr>
+            <tr>
+           		<th><span id="supplier_label">供应商：</span></th>
+	               	<td colspan="3"><span class="valueSpan">${model.supplier!''}</span></td>
+            </tr>
+            <tr>
+           		<th><span id="remark_label">备注：</span></th>
+	               	<td colspan="3"><span class="valueSpan">${model.remark!''}</span></td>
+            </tr>
+           	
+        </table>
+    </form>
+</div>
+<script>
+$(function(){
+	hideButton();
+});
+//扩展js
+</script>
+<#include "/common/foot.html"/>

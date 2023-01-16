@@ -1,0 +1,80 @@
+
+<#include "/common/head.html"/>
+<script type="text/javascript" src="${basePath}/res/js/ajaxupload.js"></script>
+
+ <div class="easyui-panel updatePage multiple" data-options="fit:true,border:false">
+    <form id="ff" class="easyui-form" method="post">
+        <table class="table1" >
+            <tr>
+           		<th><span id="Category_label">分类名册：</span></th>
+               	<td>              		
+               		<div class="wrap_input" style="height:25px;line-height:32px;overflow:hidden;  ">
+               			${model.Category!''}
+               		</div> 
+           		</td>
+           		
+           		<th><span id="Location_label">位置：</span></th>
+               	<td>
+               		<div class="wrap_input" style="height:25px;line-height:32px;overflow:hidden;  ">
+               			${model.Location!''}
+               		</div>
+           		</td>
+           		
+            </tr>
+            <tr>
+           		<th><span id="Type_label">名称：</span></th>
+               	<td>
+               		<div class="wrap_input" style="height:25px;line-height:32px;overflow:hidden;  ">
+               			${model.Type!''}
+               		</div>
+           		</td>
+           		
+           		<th><span id="Code_label">产品编码：</span></th>
+               	<td>
+               		<div class="wrap_input" style="height:25px;line-height:32px;overflow:hidden;  ">
+               			${model.Code!''}
+               		</div>
+           		</td>
+            </tr>
+			<tr>
+           		<th><span id="Project_label">上传照片：</span></th>
+           		<td colspan=3>
+	               	<div class="wrap_input"><a href="javascript:void(0)" class="easyui-linkbutton" id="aa">上传</a> </div>
+               	</td>
+            </tr>
+       
+        </table>
+    </form>
+</div>
+<script>
+
+top.window.subPage.save = save;
+var cc = new AjaxUpload('#aa', {
+	action : 'importpic?id=${model.id}',
+	name : 'file',
+	autoSubmit : true,
+	responseType : "json",
+	onSubmit : function(file, extension) {
+		if (!(extension && /^(jpg|png|bmp)$/.test(extension.toLowerCase()))) {
+			showWarnMsg('只支持jpg,png,bmp格式文件上传！');
+			return false;
+		}
+	},
+	onComplete : function(file, data) {
+		if(data.result=="success"){
+			showMsg(data.msg);
+			top.window.closeWindow();
+			top.window.subPage.loadCurrDatagrid();
+		}else{
+			showWarnMsg(data.msg);
+		}
+	}
+});
+function save() {
+	top.window.closeWindow();
+	top.window.subPage.loadCurrDatagrid();
+}
+
+//扩展js
+</script>
+<#include "/common/foot.html"/>

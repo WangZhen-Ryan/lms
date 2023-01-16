@@ -1,0 +1,198 @@
+
+<#include "/common/head.html"/>
+
+
+ <div class="easyui-panel updatePage multiple" data-options="fit:true,border:false">
+    <form id="ff" class="easyui-form" method="post">
+        <table class="table1">
+            <tr>
+           		<th><span id="location_label">位置：</span></th>
+               	<td>
+               		<div class="wrap_input"><input id="location" name="location" id="location" class="easyui-combobox" value="${model.location!''}" data-options="
+               				valueField: 'id',
+        					textField: 'text',
+        					fit: true,
+        					url:'addressDic',
+            				required:true,
+            				panelHeight:200,
+            				showDataSize:20,
+            				filter: function(q, row){//当输入数据时会调用该方法进行筛选过滤,支持键值同时搜索
+									var opts = $(this).combobox('options');
+									return row[opts.textField].indexOf(q) >= 0;
+							}"/></div>
+           		</td>
+           		<th><span id="ip_address_label">IP地址：</span></th>
+               	<td>
+	            	<div class="wrap_input"><input class="easyui-textbox" id="ip_address" name="ip_address" value="${model.ip_address!''}" data-options="
+   								fit: true
+	            	" /></div>        	
+           		</td>
+           	</tr>
+           	<tr>
+           		<th><span id="netmask_label">子网掩码：</span></th>
+               	<td>
+	            	<div class="wrap_input"><input class="easyui-textbox" id="netmask" name="netmask" value="${model.netmask!''}" data-options="
+   								fit: true
+	            	" /></div>        	
+           		</td>
+           		<th><span id="gateway_label">网关：</span></th>
+               	<td>
+	            	<div class="wrap_input"><input class="easyui-textbox" id="gateway" name="gateway" value="${model.gateway!''}" data-options="
+   								fit: true
+	            	" /></div>        	
+           		</td>
+           	</tr>
+            <tr>
+            	<th><span id="status_label">状态：</span></th>
+               	<td>
+               		<div class="wrap_input"><input id="status" name="status" id="status" class="easyui-combobox" value="${model.status!''}" data-options="
+               				editable:false,
+               				valueField: 'id',
+        					textField: 'text',
+        					fit: true,
+        					data:[
+        						{id:'', text:''}<#list dictDatastatus.keySet() as key>,{id:'${key}', text:'${dictDatastatus.get(key)}'}</#list>
+	               			]
+               		"/></div>
+           		</td>
+           		<th><span id="user_label">使用人：</span></th>
+               	<td>
+               		<div class="wrap_input">
+               			<input class="easyui-combobox" type="text" name="user" id="user" value="${model.user!''}" data-options="
+	            				valueField: 'id',
+   								textField: 'text',
+   								fit: true,
+	            				data: [
+	            					{id:'', text:''}<#list dictDataUser.keySet() as key>,{id:'${key}', text:'${dictDataUser.get(key)}'}</#list>
+	            				],
+	            				panelHeight:'auto'" >
+               		</div>
+           		</td>
+            </tr>
+            <tr>
+            	<th><span id="pl_code_label">产品线代码：</span></th>
+               	<td>
+               		<div class="wrap_input"><input class="easyui-textbox" type="text" name="pl_code" id="pl_code" value="${model.pl_code!''}" data-options="fit: true"></input></div>
+           		</td>
+           		<th><span id="from_date_label">起始日期：</span></th>
+               	<td>
+               		<div class="wrap_input"><input class="easyui-datebox" type="text" name="from_date" id="from_date" value="${model.from_date!''}" data-options="fit: true,editable:false"></input></div>
+           		</td>
+            </tr>
+            <tr>
+            	<th><span id="till_date_label">结束日期：</span></th>
+               	<td>
+               		<div class="wrap_input"><input class="easyui-datebox" type="text" name="till_date" id="till_date" value="${model.till_date!''}" data-options="fit: true,editable:false"></input></div>
+           		</td>
+           		<th><span id="project_label">项目：</span></th>
+               	<td>
+               		<div class="wrap_input"><input class="easyui-textbox" type="text" name="project" id="project" value="${model.project!''}" data-options="fit: true"></input></div>
+           		</td>
+            </tr>
+            <tr>
+            	<th><span id="sub_project_label">子项目：</span></th>
+               	<td>
+               		<div class="wrap_input"><input class="easyui-textbox" type="text" name="sub_project" id="sub_project" value="${model.sub_project!''}" data-options="fit: true"></input></div>
+           		</td>
+           		<th><span id="cc_label">能力中心：</span></th>
+               	<td>
+               		<div class="wrap_input"><input class="easyui-textbox" type="text" name="cc" id="cc" value="${model.cc!''}" data-options="fit: true"></input></div>
+           		</td>
+            </tr>
+            <tr>
+            	<th><span id="tpm_label">项目经理：</span></th>
+               	<td>
+               		<div class="wrap_input">
+               			<input class="easyui-combobox" type="text" name="tpm" id="tpm" value="${model.tpm!''}" data-options="
+	            				valueField: 'id',
+   								textField: 'text',
+   								fit: true,
+	            				data: [
+	            					{id:'', text:''}<#list dictDataUser.keySet() as key>,{id:'${key}', text:'${dictDataUser.get(key)}'}</#list>
+	            				],
+	            				panelHeight:'auto'" >
+               		</div>
+           		</td>
+           		<th><span id="fl_tpl_label">项目领导：</span></th>
+               	<td>
+               		<div class="wrap_input">
+               			<input class="easyui-combobox" type="text" name="fl_tpl" id="fl_tpl" value="${model.fl_tpl!''}" data-options="
+	            				valueField: 'id',
+   								textField: 'text',
+   								fit: true,
+	            				data: [
+	            					{id:'', text:''}<#list dictDataUser.keySet() as key>,{id:'${key}', text:'${dictDataUser.get(key)}'}</#list>
+	            				],
+	            				panelHeight:'auto'" >
+               		</div>
+           		</td>
+            </tr>
+            <tr>
+            	<th><span id="net_label">网络端口：</span></th>
+               	<td>
+               		<div class="wrap_input"><input class="easyui-textbox" type="text" name="net" id="net" value="${model.net!''}" data-options="fit: true"></input></div>
+           		</td>
+           		<th><span id="vlan_label">交换机VLAN：</span></th>
+               	<td>
+               		<div class="wrap_input"><input class="easyui-textbox" type="text" name="vlan" id="vlan" value="${model.vlan!''}" data-options="fit: true"></input></div>
+           		</td>
+            </tr>
+            <tr>
+            	<th><span id="switch_port_label">交换机端口：</span></th>
+               	<td>
+               		<div class="wrap_input"><input class="easyui-textbox" type="text" name="switch_port" id="switch_port" value="${model.switch_port!''}" data-options="fit: true"></input></div>
+           		</td>
+           		<th><span id="remark_label">备注：</span></th>
+               	<td>
+               		<div class="wrap_input"><input class="easyui-textbox" type="text" name="remark" id="remark" value="${model.remark!''}" data-options="fit: true"></input></div>
+           		</td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script>
+top.window.subPage.save = save;
+function save() {
+	if($("#ff").form('validate')) {
+		$.post("update", getParam(), function(data) {
+			if(data.result=="success"){
+				top.window.closeWindow();
+				top.window.subPage.loadCurrDatagrid();
+			}
+		});
+	}
+}
+function getParam() {
+	var param = {
+	     
+	    "id": ${model.id}, 
+       	    "model.location": getInputValue("location"), 
+       	 	"model.ip_address": getInputValue("ip_address"), 
+    		"model.netmask": getInputValue("netmask"), 
+    		"model.gateway": getInputValue("gateway"), 
+       	    "model.status": getInputValue("status"), 
+       	    "model.user": getInputValue("user"), 
+       	 	"model.pl_code": getInputValue("pl_code"), 
+       	    "model.from_date": getInputValue("from_date"), 
+       	    "model.till_date": getInputValue("till_date"), 
+       	    "model.project": getInputValue("project"), 
+       	    "model.sub_project": getInputValue("sub_project"), 
+       	    "model.cc": getInputValue("cc"), 
+       	    "model.tpm": getInputValue("tpm"), 
+       	    "model.fl_tpl": getInputValue("fl_tpl"), 
+       	    "model.net": getInputValue("net"), 
+       	    "model.vlan": getInputValue("vlan"), 
+       	    "model.switch_port": getInputValue("switch_port"), 
+       	    "model.remark": getInputValue("remark"), 
+	}
+	for(key in param) {
+		if(!param[key]) {
+			delete param[key];
+		}
+	}
+	return param;
+}
+
+//扩展js
+</script>
+<#include "/common/foot.html"/>

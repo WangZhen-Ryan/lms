@@ -1,0 +1,33 @@
+
+<#include "/common/head.html"/>
+
+
+ <div class="easyui-panel detailPage" data-options="fit:true,border:false">
+    <form id="ff" class="easyui-form" method="post">
+        <table class="table1">
+            <tr>
+           		<th><span id="build_code_label">楼栋号：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.build_code!''}</pre></span></td>
+            <tr>
+           		<th><span id="class_code_label">房间号：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.class_code!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="rack_info_label">位置信息：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.rack_info!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="auto_val_label">地址编码：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.auto_val!''}</pre></span></td>
+            </tr>
+           	
+        </table>
+    </form>
+</div>
+<script>
+$(function(){
+	hideButton();
+});
+//扩展js
+</script>
+<#include "/common/foot.html"/>

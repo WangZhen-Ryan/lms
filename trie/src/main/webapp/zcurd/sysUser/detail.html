@@ -1,0 +1,32 @@
+
+<#include "/common/head.html"/>
+
+
+ <div class="easyui-panel detailPage" data-options="fit:true,border:false">
+    <form id="ff" class="easyui-form" method="post">
+        <table class="table1">
+            <tr>
+           		<th><span id="user_name_label">用户名：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.user_name!''}</pre></span></td>
+	         </tr>
+            <tr>
+           		<th><span id="roles_label">角色：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.roles!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="display_name_label">真实姓名：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.display_name!''}</pre></span></td>
+            </tr>
+            <tr>
+           		<th><span id="create_time_label">创建时间：</span></th>
+	               	<td><span class="valueSpan"><pre>${model.create_time!''}</pre></span></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script>
+$(function(){
+	hideButton();
+});
+</script>
+<#include "/common/foot.html"/>
